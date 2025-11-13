@@ -1,52 +1,91 @@
-/* --- Fontes --- */
+/* --- GERAL & FONTES --- */
+:root {
+    --primary-blue: #0d6efd;
+    --dark-blue: #0a58ca;
+    --light-blue: #cfe2ff;
+    --gray-bg: #f8f9fa;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: var(--gray-bg);
 }
 
-.logo, .logo-login, .section-title, .main-hero h1 {
+.logo, .logo-login, .section-title, .section-title-dashboard, .main-hero h1, .feature-card .card-title {
     font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-}
-
-/* --- Página Principal (index.html) --- */
-.main-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1499502127222-2b5d355c0f1b?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
-    background-size: cover;
-    padding: 100px 0;
-}
-
-.section-title {
-    color: #333;
     font-weight: 600;
 }
 
-.card {
-    transition: transform .2s;
-    margin-bottom: 1.5rem; /* Adicionado espaçamento inferior */
+.logo { color: var(--primary-blue); }
+.logo-login { color: var(--primary-blue); font-size: 2.5rem; }
+.section-title-dashboard { color: #333; font-weight: 600;}
+
+/* --- BOTÃO PERSONALIZADO --- */
+.btn-primary-custom {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #fff;
+    transition: background-color 0.2s ease-in-out;
+}
+.btn-primary-custom:hover {
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+    color: #fff;
 }
 
-.card:hover {
-    transform: scale(1.02); /* Reduzido o efeito para ser mais sutil */
+/* --- PÁGINA PRINCIPAL (index.html) --- */
+.main-hero {
+    background: linear-gradient(rgba(13, 110, 253, 0.8), rgba(10, 88, 202, 0.9)), url('https://images.unsplash.com/photo-1620206237464-927910c3b94e?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+    background-size: cover;
+    padding: 120px 0;
 }
 
-/* --- Página de Login (login.html) --- */
+.feature-card {
+    border: 0;
+    border-top: 4px solid var(--primary-blue);
+}
+
+.footer-custom {
+    background-color: var(--dark-blue);
+}
+
+/* --- PÁGINA DE LOGIN (login.html) --- */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
-
 .login-container .card {
     width: 100%;
-    max-width: 450px;
+    max-width: 480px;
 }
 
-.logo-login {
-    color: #198754; /* Verde do Bootstrap */
+/* --- DASHBOARD (dashboard.html) --- */
+.navbar-custom {
+    background-color: var(--primary-blue);
 }
-
-/* --- Dashboard (dashboard.html) --- */
-.navbar-brand.logo {
+.navbar-custom .logo {
+    color: #fff;
     font-size: 1.5rem;
 }
+.info-card .card-title {
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.info-card .card-body {
+    padding: 1.25rem;
+}
+.accordion-button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #333;
+}
+.accordion-button:not(.collapsed) {
+    background-color: var(--light-blue);
+    color: var(--dark-blue);
+}
+.text-receita { color: #198754; font-weight: bold; }
+.text-despesa { color: #dc3545; font-weight: bold; }
