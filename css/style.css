@@ -1,0 +1,52 @@
+/* --- Fontes --- */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.logo, .logo-login, .section-title, .main-hero h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+/* --- Página Principal (index.html) --- */
+.main-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1499502127222-2b5d355c0f1b?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+}
+
+.section-title {
+    color: #333;
+    font-weight: 600;
+}
+
+.card {
+    transition: transform .2s;
+    margin-bottom: 1.5rem; /* Adicionado espaçamento inferior */
+}
+
+.card:hover {
+    transform: scale(1.02); /* Reduzido o efeito para ser mais sutil */
+}
+
+/* --- Página de Login (login.html) --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container .card {
+    width: 100%;
+    max-width: 450px;
+}
+
+.logo-login {
+    color: #198754; /* Verde do Bootstrap */
+}
+
+/* --- Dashboard (dashboard.html) --- */
+.navbar-brand.logo {
+    font-size: 1.5rem;
+}
