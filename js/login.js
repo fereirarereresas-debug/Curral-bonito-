@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const alertPlaceholder = document.getElementById('alert-placeholder');
 
-    // Define a data de hoje no campo de data se existir
+    // Define a data de hoje nos campos de data
     const today = new Date().toISOString().split('T')[0];
     
     loginForm.addEventListener('submit', (e) => {
@@ -102,18 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let tentativasLogin = 0;
     const MAX_TENTATIVAS = 5;
 
-    const originalSubmit = loginForm.onsubmit;
+    const formSubmitHandler = loginForm.querySelector('button[type="submit"]');
+    
     loginForm.addEventListener('submit', (e) => {
         tentativasLogin++;
         
         if (tentativasLogin > MAX_TENTATIVAS) {
             e.preventDefault();
             showAlert('⚠️ Muitas tentativas de login. Aguarde 5 minutos.', 'danger');
-            loginForm.querySelector('button[type="submit"]').disabled = true;
+            formSubmitHandler.disabled = true;
             
             setTimeout(() => {
                 tentativasLogin = 0;
-                loginForm.querySelector('button[type="submit"]').disabled = false;
+                formSubmitHandler.disabled = false;
             }, 300000); // 5 minutos
         }
     });

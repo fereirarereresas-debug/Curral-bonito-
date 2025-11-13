@@ -6,13 +6,29 @@
 // ============================================================================
 
 const DataManager = {
-    // Fator de conversão para Unidade Animal
+    // ========================================================================
+    // TABELA CORRETA DE UNIDADE ANIMAL (UA)
+    // ========================================================================
+    // 1 UA = Animal de 450kg
+    // Fator de UA é baseado no PESO MÉDIO esperado para cada categoria
     UA_FACTORS: {
-        vaca: 1.0,
-        touro: 1.25,
-        novilha: 0.75,
-        garrote: 0.5,
-        bezerro: 0.25
+        'vaca': 1.0,          // Vaca adulta: ~450kg = 1.0 UA
+        'touro': 1.4,         // Touro adulto: ~630kg = 1.4 UA
+        'novilha': 0.75,      // Novilha 24-36m: ~337kg = 0.75 UA
+        'garrote': 0.6,       // Garrote 12-24m: ~270kg = 0.6 UA
+        'bezerro': 0.25,      // Bezerro 0-12m: ~112kg = 0.25 UA
+        'bezerra': 0.25,      // Bezerra 0-12m: ~112kg = 0.25 UA
+        'novilho': 0.85,      // Novilho 24-36m: ~383kg = 0.85 UA
+        'boi': 1.2            // Boi gordo: ~540kg = 1.2 UA
+    },
+
+    // ========================================================================
+    // CÁLCULO DE UA BASEADO NO PESO REAL (quando informado)
+    // ========================================================================
+    calcularUAPorPeso(pesoKg) {
+        if (!pesoKg || pesoKg <= 0) return 0;
+        // 1 UA = 450kg, então: UA = peso / 450
+        return parseFloat((pesoKg / 450).toFixed(2));
     },
 
     // Obtém a chave de criptografia da sessão
@@ -58,14 +74,22 @@ const DataManager = {
     addAnimal(animal) {
         const animais = this.getAnimais();
         
-        // Verifica se já existe animal com este ID
         if (animais.some(a => a.id === animal.id)) {
             alert('Já existe um animal com este ID!');
             return false;
         }
         
+        // Calcula UA baseado no peso real (se informado) ou categoria
+        let ua = 0;
+        if (animal.peso && animal.peso > 0) {
+            ua = this.calcularUAPorPeso(animal.peso);
+        } else {
+            ua = this.UA_FACTORS[animal.categoria] || 0;
+        }
+        
         animais.push({
             ...animal,
+            ua: ua,
             uid: Date.now().toString(),
             dataCadastro: new Date().toISOString()
         });
@@ -73,9 +97,81 @@ const DataManager = {
         return true;
     },
 
+    updateAnimal(id, updatedData) {
+        const animais = this.getAnimais();
+        const index = animais.findIndex(a => a.id === id);
+        if (index !== -1) {
+            // Recalcula UA se o peso foi atualizado
+            if (updatedData.peso && updatedData.peso > 0) {
+                updatedData.ua = this.calcularUAPorPeso(updatedData.peso);
+            }
+            animais[index] = { ...animais[index], ...updatedData };
+            localStorage.setItem('animais_encrypted', this.encrypt(animais));
+            return true;
+        }
+        return false;
+    },
+
     removeAnimal(id) {
         const animais = this.getAnimais().filter(a => a.id !== id);
         localStorage.setItem('animais_encrypted', this.encrypt(animais));
+    },
+
+    // ========================================================================
+    // PESAGENS
+    // ========================================================================
+    getPesagens() {
+        return this.decrypt(localStorage.getItem('pesagens_encrypted')) || [];
+    },
+
+    addPesagem(pesagem) {
+        const pesagens = this.getPesagens();
+        pesagens.push(pesagem);
+        localStorage.setItem('pesagens_encrypted', this.encrypt(pesagens));
+        
+        // Atualiza o peso do animal
+        this.updateAnimal(pesagem.animalId, { peso: pesagem.peso });
+    },
+
+    removePesagem(uid) {
+        const pesagens = this.getPesagens().filter(p => p.uid !== uid);
+        localStorage.setItem('pesagens_encrypted', this.encrypt(pesagens));
+    },
+
+    // ========================================================================
+    // PASTAGENS
+    // ========================================================================
+    getPastagens() {
+        return this.decrypt(localStorage.getItem('pastagens_encrypted')) || [];
+    },
+
+    addPastagem(pastagem) {
+        const pastagens = this.getPastagens();
+        pastagens.push(pastagem);
+        localStorage.setItem('pastagens_encrypted', this.encrypt(pastagens));
+    },
+
+    removePastagem(uid) {
+        const pastagens = this.getPastagens().filter(p => p.uid !== uid);
+        localStorage.setItem('pastagens_encrypted', this.encrypt(pastagens));
+    },
+
+    // ========================================================================
+    // PRODUÇÃO DE LEITE
+    // ========================================================================
+    getProducaoLeite() {
+        return this.decrypt(localStorage.getItem('leite_encrypted')) || [];
+    },
+
+    addProducaoLeite(producao) {
+        const producoes = this.getProducaoLeite();
+        producoes.push(producao);
+        localStorage.setItem('leite_encrypted', this.encrypt(producoes));
+    },
+
+    removeProducaoLeite(uid) {
+        const producoes = this.getProducaoLeite().filter(p => p.uid !== uid);
+        localStorage.setItem('leite_encrypted', this.encrypt(producoes));
     },
 
     // ========================================================================
@@ -197,18 +293,24 @@ const DataManager = {
     },
 
     // ========================================================================
-    // ESTATÍSTICAS PARA O DASHBOARD
+    // ESTATÍSTICAS PARA O DASHBOARD (CORRIGIDO)
     // ========================================================================
     getDashboardStats() {
         const animais = this.getAnimais();
         const inseminacoes = this.getInseminacoes();
         const financeiros = this.getFinanceiros();
+        const producaoLeite = this.getProducaoLeite();
         
-        // Calcula total de UA
+        // Calcula total de UA CORRETAMENTE
         let totalUA = 0;
+        let pesoTotal = 0;
+        
         animais.forEach(animal => {
-            const fator = this.UA_FACTORS[animal.categoria] || 0;
-            totalUA += fator;
+            if (animal.status !== 'Ativo') return; // Conta apenas animais ativos
+            
+            // Usa UA já calculado no animal (baseado em peso real ou categoria)
+            totalUA += animal.ua || 0;
+            pesoTotal += parseFloat(animal.peso) || 0;
         });
         
         // Calcula saldo financeiro
@@ -222,18 +324,62 @@ const DataManager = {
             }
         });
         
-        // Conta inseminações ativas (aguardando ou confirmadas)
+        // Conta inseminações ativas
         const inseminacoesAtivas = inseminacoes.filter(
             i => i.status === 'Aguardando' || i.status === 'Confirmada'
         ).length;
         
+        // Produção de leite do mês atual
+        const mesAtual = new Date().getMonth();
+        const anoAtual = new Date().getFullYear();
+        const producaoMesAtual = producaoLeite
+            .filter(p => {
+                const data = new Date(p.data);
+                return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+            })
+            .reduce((total, p) => total + parseFloat(p.quantidade), 0);
+        
         return {
-            totalAnimais: animais.length,
-            totalUA: totalUA,
+            totalAnimais: animais.filter(a => a.status === 'Ativo').length,
+            totalUA: parseFloat(totalUA.toFixed(2)),
+            pesoMedioRebanho: animais.filter(a => a.status === 'Ativo').length > 0 ? (pesoTotal / animais.filter(a => a.status === 'Ativo').length).toFixed(0) : 0,
             saldoTotal: this.formatarMoeda(totalReceitas - totalDespesas),
             totalInseminacoes: inseminacoesAtivas,
             totalReceitas: totalReceitas,
-            totalDespesas: totalDespesas
+            totalDespesas: totalDespesas,
+            producaoLeiteMes: producaoMesAtual.toFixed(0)
         };
+    },
+
+    // ========================================================================
+    // CÁLCULO DE LOTAÇÃO DE PASTAGEM
+    // ========================================================================
+    calcularLotacao(areaHectares, totalUA) {
+        if (!areaHectares || areaHectares <= 0) return 0;
+        // Retorna UA por hectare
+        return (totalUA / areaHectares).toFixed(2);
+    },
+
+    // ========================================================================
+    // GANHO DE PESO MÉDIO DIÁRIO (GPD)
+    // ========================================================================
+    calcularGPD(animalId) {
+        const pesagens = this.getPesagens()
+            .filter(p => p.animalId === animalId)
+            .sort((a, b) => new Date(a.data) - new Date(b.data));
+        
+        if (pesagens.length < 2) return 0;
+        
+        const primeira = pesagens[0];
+        const ultima = pesagens[pesagens.length - 1];
+        
+        const diferencaPeso = ultima.peso - primeira.peso;
+        const diferencaDias = Math.floor(
+            (new Date(ultima.data) - new Date(primeira.data)) / (1000 * 60 * 60 * 24)
+        );
+        
+        if (diferencaDias === 0) return 0;
+        
+        return (diferencaPeso / diferencaDias).toFixed(3);
     }
 };
