@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alimentação - Curral Bonito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-award-fill text-warning fs-2"></i>
+            <h5 class="fw-bold mb-0 mt-2">CURRAL BONITO</h5>
+            <small class="text-muted">Gestão Rural Pro</small>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a href="rebanho.html" class="menu-item"><i class="bi bi-clipboard-data"></i><span>Rebanho</span></a>
+            <a href="genealogia.html" class="menu-item"><i class="bi bi-diagram-3"></i><span>Genealogia</span></a>
+            <a href="inseminacao.html" class="menu-item"><i class="bi bi-heart-pulse"></i><span>Inseminação</span></a>
+            <a href="sanitario.html" class="menu-item"><i class="bi bi-prescription2"></i><span>Sanitário</span></a>
+            <a href="alimentacao.html" class="menu-item active"><i class="bi bi-basket"></i><span>Alimentação</span></a>
+            <a href="financeiro.html" class="menu-item"><i class="bi bi-cash-coin"></i><span>Financeiro</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn btn-danger w-100" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Sair</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="topbar">
+            <button class="btn btn-primary" id="toggle-sidebar"><i class="bi bi-list fs-4"></i></button>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="me-3">Bem-vindo, <strong id="username-display"></strong>!</span>
+                <i class="bi bi-person-circle fs-3 text-primary"></i>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="page-header">
+                <h1 class="fw-bold"><i class="bi bi-basket text-info"></i> Controle de Alimentação</h1>
+                <p class="text-muted">Gestão de ração, suplementos e consumo por UA</p>
+            </div>
+
+            <!-- Card de Consumo por UA -->
+            <div class="row mb-4">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-rulers me-2"></i>Total de UA no Rebanho</h5>
+                            <h2 class="mb-0" id="total-ua-alimentacao">0.0 UA</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card shadow-sm bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-calculator me-2"></i>Consumo Estimado/Dia</h5>
+                            <h2 class="mb-0" id="consumo-dia">0 kg</h2>
+                            <small>Baseado em 2% do peso vivo por UA</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card shadow-sm bg-warning text-dark">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-calendar-week me-2"></i>Consumo Mensal</h5>
+                            <h2 class="mb-0" id="consumo-mes">0 kg</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Alimentação -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Registrar Alimentação/Suplemento</h5>
+                </div>
+                <div class="card-body">
+                    <form id="alimentacao-form">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Data *</label>
+                                <input type="date" class="form-control" id="alim-data" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Tipo de Alimento *</label>
+                                <select class="form-select" id="alim-tipo" required>
+                                    <option value="">Selecione</option>
+                                    <option value="Ração">Ração</option>
+                                    <option value="Sal Mineral">Sal Mineral</option>
+                                    <option value="Silagem">Silagem</option>
+                                    <option value="Feno">Feno</option>
+                                    <option value="Concentrado">Concentrado</option>
+                                    <option value="Suplemento Proteico">Suplemento Proteico</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Quantidade (kg) *</label>
+                                <input type="number" step="0.01" class="form-control" id="alim-qtd" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Custo Total (R$)</label>
+                                <input type="number" step="0.01" class="form-control" id="alim-custo" placeholder="0.00">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Fornecedor</label>
+                                <input type="text" class="form-control" id="alim-fornecedor" placeholder="Nome do fornecedor">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Observações</label>
+                                <input type="text" class="form-control" id="alim-obs" placeholder="Ex: Distribuído em 2 tratos">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-info mt-3 px-4 text-white">
+                            <i class="bi bi-check-circle me-2"></i>Salvar Registro
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabela de Alimentação -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-clipboard-data me-2"></i>Histórico de Alimentação</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tipo de Alimento</th>
+                                    <th>Quantidade (kg)</th>
+                                    <th>Custo (R$)</th>
+                                    <th>Custo/kg</th>
+                                    <th>Fornecedor</th>
+                                    <th>Observações</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alimentacao-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Atualiza o card de UA e consumo estimado
+        function atualizarConsumo() {
+            const stats = DataManager.getDashboardStats();
+            const totalUA = stats.totalUA;
+            const consumoDia = totalUA * 450; // 450kg é o peso médio estimado por UA, consumo de 2%
+            const consumoMes = consumoDia * 30;
+            
+            document.getElementById('total-ua-alimentacao').textContent = totalUA.toFixed(2) + ' UA';
+            document.getElementById('consumo-dia').textContent = consumoDia.toFixed(0) + ' kg';
+            document.getElementById('consumo-mes').textContent = consumoMes.toFixed(0) + ' kg';
+        }
+
+        document.getElementById('alimentacao-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const qtd = parseFloat(document.getElementById('alim-qtd').value);
+            const custo = parseFloat(document.getElementById('alim-custo').value) || 0;
+            
+            const alimentacao = {
+                uid: Date.now().toString(),
+                data: document.getElementById('alim-data').value,
+                tipo: document.getElementById('alim-tipo').value,
+                quantidade: qtd,
+                custo: custo,
+                custoKg: qtd > 0 ? (custo / qtd).toFixed(2) : 0,
+                fornecedor: document.getElementById('alim-fornecedor').value,
+                obs: document.getElementById('alim-obs').value
+            };
+            DataManager.addAlimentacao(alimentacao);
+            alert('Alimentação registrada com sucesso!');
+            e.target.reset();
+            carregarAlimentacao();
+        });
+
+        function carregarAlimentacao() {
+            const alimentacoes = DataManager.getAlimentacoes();
+            const tbody = document.getElementById('alimentacao-table');
+            tbody.innerHTML = alimentacoes.map(a => `
+                <tr>
+                    <td>${DataManager.formatarData(a.data)}</td>
+                    <td><span class="badge bg-secondary">${a.tipo}</span></td>
+                    <td>${a.quantidade} kg</td>
+                    <td>R$ ${parseFloat(a.custo).toFixed(2)}</td>
+                    <td>R$ ${a.custoKg}</td>
+                    <td>${a.fornecedor || '-'}</td>
+                    <td>${a.obs || '-'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="DataManager.removeAlimentacao('${a.uid}'); carregarAlimentacao();">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        atualizarConsumo();
+        carregarAlimentacao();
+    </script>
+</body>
+</html>

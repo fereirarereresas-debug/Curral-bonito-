@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financeiro - Curral Bonito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-award-fill text-warning fs-2"></i>
+            <h5 class="fw-bold mb-0 mt-2">CURRAL BONITO</h5>
+            <small class="text-muted">Gestão Rural Pro</small>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a href="rebanho.html" class="menu-item"><i class="bi bi-clipboard-data"></i><span>Rebanho</span></a>
+            <a href="genealogia.html" class="menu-item"><i class="bi bi-diagram-3"></i><span>Genealogia</span></a>
+            <a href="inseminacao.html" class="menu-item"><i class="bi bi-heart-pulse"></i><span>Inseminação</span></a>
+            <a href="sanitario.html" class="menu-item"><i class="bi bi-prescription2"></i><span>Sanitário</span></a>
+            <a href="alimentacao.html" class="menu-item"><i class="bi bi-basket"></i><span>Alimentação</span></a>
+            <a href="financeiro.html" class="menu-item active"><i class="bi bi-cash-coin"></i><span>Financeiro</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn btn-danger w-100" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Sair</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="topbar">
+            <button class="btn btn-primary" id="toggle-sidebar"><i class="bi bi-list fs-4"></i></button>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="me-3">Bem-vindo, <strong id="username-display"></strong>!</span>
+                <i class="bi bi-person-circle fs-3 text-primary"></i>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="page-header">
+                <h1 class="fw-bold"><i class="bi bi-cash-coin text-success"></i> Painel Financeiro</h1>
+                <p class="text-muted">Controle completo de receitas e despesas da fazenda</p>
+            </div>
+
+            <!-- Cards Resumo Financeiro -->
+            <div class="row mb-4">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-arrow-up-circle me-2"></i>Total de Receitas</h5>
+                            <h2 class="mb-0" id="total-receitas">R$ 0,00</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card shadow-sm bg-danger text-white">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-arrow-down-circle me-2"></i>Total de Despesas</h5>
+                            <h2 class="mb-0" id="total-despesas">R$ 0,00</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card shadow-sm bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-wallet2 me-2"></i>Saldo Atual</h5>
+                            <h2 class="mb-0" id="saldo-atual">R$ 0,00</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário Financeiro -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Lançar Receita ou Despesa</h5>
+                </div>
+                <div class="card-body">
+                    <form id="financeiro-form">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Data *</label>
+                                <input type="date" class="form-control" id="fin-data" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Tipo *</label>
+                                <select class="form-select" id="fin-tipo" required>
+                                    <option value="">Selecione</option>
+                                    <option value="Receita">Receita</option>
+                                    <option value="Despesa">Despesa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Categoria *</label>
+                                <select class="form-select" id="fin-categoria" required>
+                                    <option value="">Selecione</option>
+                                    <optgroup label="Receitas">
+                                        <option value="Venda de Gado">Venda de Gado</option>
+                                        <option value="Venda de Leite">Venda de Leite</option>
+                                        <option value="Outras Receitas">Outras Receitas</option>
+                                    </optgroup>
+                                    <optgroup label="Despesas">
+                                        <option value="Alimentação">Alimentação</option>
+                                        <option value="Medicamentos">Medicamentos</option>
+                                        <option value="Mão de Obra">Mão de Obra</option>
+                                        <option value="Manutenção">Manutenção</option>
+                                        <option value="Combustível">Combustível</option>
+                                        <option value="Outras Despesas">Outras Despesas</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Valor (R$) *</label>
+                                <input type="number" step="0.01" class="form-control" id="fin-valor" placeholder="0.00" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Descrição *</label>
+                                <input type="text" class="form-control" id="fin-descricao" placeholder="Ex: Venda de 10 bezerros" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Observações</label>
+                                <input type="text" class="form-control" id="fin-obs" placeholder="Informações adicionais">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 px-4">
+                            <i class="bi bi-check-circle me-2"></i>Salvar Lançamento
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabela Financeira -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Histórico Financeiro</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tipo</th>
+                                    <th>Categoria</th>
+                                    <th>Descrição</th>
+                                    <th>Valor (R$)</th>
+                                    <th>Observações</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="financeiro-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('financeiro-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const financeiro = {
+                uid: Date.now().toString(),
+                data: document.getElementById('fin-data').value,
+                tipo: document.getElementById('fin-tipo').value,
+                categoria: document.getElementById('fin-categoria').value,
+                valor: parseFloat(document.getElementById('fin-valor').value),
+                descricao: document.getElementById('fin-descricao').value,
+                obs: document.getElementById('fin-obs').value
+            };
+            DataManager.addFinanceiro(financeiro);
+            alert('Lançamento registrado com sucesso!');
+            e.target.reset();
+            carregarFinanceiro();
+        });
+
+        function carregarFinanceiro() {
+            const lancamentos = DataManager.getFinanceiros();
+            const tbody = document.getElementById('financeiro-table');
+            
+            let totalReceitas = 0;
+            let totalDespesas = 0;
+            
+            tbody.innerHTML = lancamentos.map(f => {
+                const isReceita = f.tipo === 'Receita';
+                if (isReceita) {
+                    totalReceitas += f.valor;
+                } else {
+                    totalDespesas += f.valor;
+                }
+                
+                return `
+                    <tr>
+                        <td>${DataManager.formatarData(f.data)}</td>
+                        <td><span class="badge bg-${isReceita ? 'success' : 'danger'}">${f.tipo}</span></td>
+                        <td>${f.categoria}</td>
+                        <td>${f.descricao}</td>
+                        <td class="fw-bold ${isReceita ? 'text-success' : 'text-danger'}">
+                            ${isReceita ? '+' : '-'} R$ ${f.valor.toFixed(2)}
+                        </td>
+                        <td>${f.obs || '-'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="DataManager.removeFinanceiro('${f.uid}'); carregarFinanceiro();">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            document.getElementById('total-receitas').textContent = 'R$ ' + totalReceitas.toFixed(2);
+            document.getElementById('total-despesas').textContent = 'R$ ' + totalDespesas.toFixed(2);
+            document.getElementById('saldo-atual').textContent = 'R$ ' + (totalReceitas - totalDespesas).toFixed(2);
+        }
+
+        carregarFinanceiro();
+    </script>
+</body>
+</html>

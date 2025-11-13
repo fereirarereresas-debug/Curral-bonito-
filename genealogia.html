@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genealogia - Curral Bonito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-award-fill text-warning fs-2"></i>
+            <h5 class="fw-bold mb-0 mt-2">CURRAL BONITO</h5>
+            <small class="text-muted">Gestão Rural Pro</small>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a href="rebanho.html" class="menu-item"><i class="bi bi-clipboard-data"></i><span>Rebanho</span></a>
+            <a href="genealogia.html" class="menu-item active"><i class="bi bi-diagram-3"></i><span>Genealogia</span></a>
+            <a href="inseminacao.html" class="menu-item"><i class="bi bi-heart-pulse"></i><span>Inseminação</span></a>
+            <a href="sanitario.html" class="menu-item"><i class="bi bi-prescription2"></i><span>Sanitário</span></a>
+            <a href="alimentacao.html" class="menu-item"><i class="bi bi-basket"></i><span>Alimentação</span></a>
+            <a href="financeiro.html" class="menu-item"><i class="bi bi-cash-coin"></i><span>Financeiro</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn btn-danger w-100" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Sair</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="topbar">
+            <button class="btn btn-primary" id="toggle-sidebar"><i class="bi bi-list fs-4"></i></button>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="me-3">Bem-vindo, <strong id="username-display"></strong>!</span>
+                <i class="bi bi-person-circle fs-3 text-primary"></i>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="page-header">
+                <h1 class="fw-bold"><i class="bi bi-diagram-3 text-success"></i> Painel de Genealogia</h1>
+                <p class="text-muted">Controle completo da linhagem do rebanho</p>
+            </div>
+
+            <!-- Formulário de Genealogia -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Registrar Genealogia</h5>
+                </div>
+                <div class="card-body">
+                    <form id="genealogia-form">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Animal (Cria) *</label>
+                                <select class="form-select" id="gen-animal" required>
+                                    <option value="">Selecione o animal</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Pai (Touro) *</label>
+                                <input type="text" class="form-control" id="gen-pai" placeholder="ID ou nome do pai" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Mãe (Vaca) *</label>
+                                <input type="text" class="form-control" id="gen-mae" placeholder="ID ou nome da mãe" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Avô Paterno</label>
+                                <input type="text" class="form-control" id="gen-avo-paterno" placeholder="Opcional">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Avô Materno</label>
+                                <input type="text" class="form-control" id="gen-avo-materno" placeholder="Opcional">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Observações sobre Linhagem</label>
+                                <textarea class="form-control" id="gen-obs" rows="2" placeholder="Ex: Linhagem de alta produção leiteira"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3 px-4">
+                            <i class="bi bi-check-circle me-2"></i>Salvar Genealogia
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lista de Genealogia -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-diagram-2 me-2"></i>Árvore Genealógica Registrada</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Animal (Cria)</th>
+                                    <th>Pai</th>
+                                    <th>Mãe</th>
+                                    <th>Avô Paterno</th>
+                                    <th>Avô Materno</th>
+                                    <th>Observações</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="genealogia-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Preenche o select de animais
+        function preencherAnimais() {
+            const animais = DataManager.getAnimais();
+            const select = document.getElementById('gen-animal');
+            select.innerHTML = '<option value="">Selecione o animal</option>' + 
+                animais.map(a => `<option value="${a.id}">${a.id} - ${a.nome || 'Sem nome'}</option>`).join('');
+        }
+
+        document.getElementById('genealogia-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const genealogia = {
+                uid: Date.now().toString(),
+                animalId: document.getElementById('gen-animal').value,
+                pai: document.getElementById('gen-pai').value,
+                mae: document.getElementById('gen-mae').value,
+                avoPaterno: document.getElementById('gen-avo-paterno').value,
+                avoMaterno: document.getElementById('gen-avo-materno').value,
+                obs: document.getElementById('gen-obs').value
+            };
+            DataManager.addGenealogia(genealogia);
+            alert('Genealogia registrada com sucesso!');
+            e.target.reset();
+            carregarGenealogia();
+        });
+
+        function carregarGenealogia() {
+            const genealogias = DataManager.getGenealogias();
+            const tbody = document.getElementById('genealogia-table');
+            tbody.innerHTML = genealogias.map(g => `
+                <tr>
+                    <td><strong>${g.animalId}</strong></td>
+                    <td>${g.pai}</td>
+                    <td>${g.mae}</td>
+                    <td>${g.avoPaterno || '-'}</td>
+                    <td>${g.avoMaterno || '-'}</td>
+                    <td>${g.obs || '-'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="DataManager.removeGenealogia('${g.uid}'); carregarGenealogia();">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        preencherAnimais();
+        carregarGenealogia();
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inseminação - Curral Bonito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-award-fill text-warning fs-2"></i>
+            <h5 class="fw-bold mb-0 mt-2">CURRAL BONITO</h5>
+            <small class="text-muted">Gestão Rural Pro</small>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a href="rebanho.html" class="menu-item"><i class="bi bi-clipboard-data"></i><span>Rebanho</span></a>
+            <a href="genealogia.html" class="menu-item"><i class="bi bi-diagram-3"></i><span>Genealogia</span></a>
+            <a href="inseminacao.html" class="menu-item active"><i class="bi bi-heart-pulse"></i><span>Inseminação</span></a>
+            <a href="sanitario.html" class="menu-item"><i class="bi bi-prescription2"></i><span>Sanitário</span></a>
+            <a href="alimentacao.html" class="menu-item"><i class="bi bi-basket"></i><span>Alimentação</span></a>
+            <a href="financeiro.html" class="menu-item"><i class="bi bi-cash-coin"></i><span>Financeiro</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn btn-danger w-100" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Sair</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="topbar">
+            <button class="btn btn-primary" id="toggle-sidebar"><i class="bi bi-list fs-4"></i></button>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="me-3">Bem-vindo, <strong id="username-display"></strong>!</span>
+                <i class="bi bi-person-circle fs-3 text-primary"></i>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="page-header">
+                <h1 class="fw-bold"><i class="bi bi-heart-pulse text-danger"></i> Controle de Inseminação</h1>
+                <p class="text-muted">Gestão completa do processo reprodutivo</p>
+            </div>
+
+            <!-- Formulário de Inseminação -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Registrar Inseminação</h5>
+                </div>
+                <div class="card-body">
+                    <form id="inseminacao-form">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Vaca/Novilha *</label>
+                                <select class="form-select" id="ins-animal" required>
+                                    <option value="">Selecione a fêmea</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Data da Inseminação *</label>
+                                <input type="date" class="form-control" id="ins-data" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Touro/Sêmen Utilizado *</label>
+                                <input type="text" class="form-control" id="ins-touro" placeholder="Nome ou ID do touro" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Tipo de Inseminação</label>
+                                <select class="form-select" id="ins-tipo">
+                                    <option value="Artificial">Artificial (IA)</option>
+                                    <option value="Natural">Natural (Monta)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Previsão de Parto</label>
+                                <input type="date" class="form-control" id="ins-parto">
+                                <small class="text-muted">Aproximadamente 285 dias após</small>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Status</label>
+                                <select class="form-select" id="ins-status">
+                                    <option value="Aguardando">Aguardando Confirmação</option>
+                                    <option value="Confirmada">Prenhez Confirmada</option>
+                                    <option value="Negativa">Negativa</option>
+                                    <option value="Abortou">Abortou</option>
+                                    <option value="Parida">Parida</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Observações</label>
+                                <textarea class="form-control" id="ins-obs" rows="2" placeholder="Ex: Segunda tentativa, utilizou protocolo hormonal"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger mt-3 px-4">
+                            <i class="bi bi-check-circle me-2"></i>Salvar Inseminação
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lista de Inseminações -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Histórico de Inseminações</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Vaca/ID</th>
+                                    <th>Data IA</th>
+                                    <th>Touro/Sêmen</th>
+                                    <th>Tipo</th>
+                                    <th>Previsão Parto</th>
+                                    <th>Status</th>
+                                    <th>Observações</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inseminacao-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Preenche o select apenas com fêmeas
+        function preencherFemeas() {
+            const animais = DataManager.getAnimais().filter(a => a.sexo === 'F');
+            const select = document.getElementById('ins-animal');
+            select.innerHTML = '<option value="">Selecione a fêmea</option>' + 
+                animais.map(a => `<option value="${a.id}">${a.id} - ${a.nome || 'Sem nome'}</option>`).join('');
+        }
+
+        // Calcula automaticamente a previsão de parto (285 dias)
+        document.getElementById('ins-data').addEventListener('change', (e) => {
+            const dataIA = new Date(e.target.value);
+            dataIA.setDate(dataIA.getDate() + 285);
+            document.getElementById('ins-parto').value = dataIA.toISOString().split('T')[0];
+        });
+
+        document.getElementById('inseminacao-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const inseminacao = {
+                uid: Date.now().toString(),
+                animalId: document.getElementById('ins-animal').value,
+                data: document.getElementById('ins-data').value,
+                touro: document.getElementById('ins-touro').value,
+                tipo: document.getElementById('ins-tipo').value,
+                previsaoParto: document.getElementById('ins-parto').value,
+                status: document.getElementById('ins-status').value,
+                obs: document.getElementById('ins-obs').value
+            };
+            DataManager.addInseminacao(inseminacao);
+            alert('Inseminação registrada com sucesso!');
+            e.target.reset();
+            carregarInseminacoes();
+        });
+
+        function carregarInseminacoes() {
+            const inseminacoes = DataManager.getInseminacoes();
+            const tbody = document.getElementById('inseminacao-table');
+            tbody.innerHTML = inseminacoes.map(i => {
+                let badgeClass = 'secondary';
+                if (i.status === 'Confirmada') badgeClass = 'success';
+                if (i.status === 'Parida') badgeClass = 'primary';
+                if (i.status === 'Negativa') badgeClass = 'danger';
+                
+                return `
+                    <tr>
+                        <td><strong>${i.animalId}</strong></td>
+                        <td>${DataManager.formatarData(i.data)}</td>
+                        <td>${i.touro}</td>
+                        <td>${i.tipo}</td>
+                        <td>${DataManager.formatarData(i.previsaoParto)}</td>
+                        <td><span class="badge bg-${badgeClass}">${i.status}</span></td>
+                        <td>${i.obs || '-'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="DataManager.removeInseminacao('${i.uid}'); carregarInseminacoes();">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        preencherFemeas();
+        carregarInseminacoes();
+    </script>
+</body>
+</html>
