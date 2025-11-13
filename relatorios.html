@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Curral Bonito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-award-fill text-warning fs-2"></i>
+            <h5 class="fw-bold mb-0 mt-2">CURRAL BONITO</h5>
+            <small class="text-muted">Gestão Rural Pro</small>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a href="rebanho.html" class="menu-item"><i class="bi bi-clipboard-data"></i><span>Rebanho</span></a>
+            <a href="pesagem.html" class="menu-item"><i class="bi bi-speedometer"></i><span>Pesagem</span></a>
+            <a href="pastagens.html" class="menu-item"><i class="bi bi-grid-3x3-gap"></i><span>Pastagens</span></a>
+            <a href="leite.html" class="menu-item"><i class="bi bi-droplet"></i><span>Produção Leite</span></a>
+            <a href="genealogia.html" class="menu-item"><i class="bi bi-diagram-3"></i><span>Genealogia</span></a>
+            <a href="inseminacao.html" class="menu-item"><i class="bi bi-heart-pulse"></i><span>Inseminação</span></a>
+            <a href="sanitario.html" class="menu-item"><i class="bi bi-prescription2"></i><span>Sanitário</span></a>
+            <a href="alimentacao.html" class="menu-item"><i class="bi bi-basket"></i><span>Alimentação</span></a>
+            <a href="financeiro.html" class="menu-item"><i class="bi bi-cash-coin"></i><span>Financeiro</span></a>
+            <a href="relatorios.html" class="menu-item active"><i class="bi bi-graph-up"></i><span>Relatórios</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn btn-danger w-100" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Sair</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="topbar">
+            <button class="btn btn-primary" id="toggle-sidebar"><i class="bi bi-list fs-4"></i></button>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="me-3">Bem-vindo, <strong id="username-display"></strong>!</span>
+                <i class="bi bi-person-circle fs-3 text-primary"></i>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="page-header">
+                <h1 class="fw-bold"><i class="bi bi-graph-up-arrow text-primary"></i> Relatórios e Indicadores</h1>
+                <p class="text-muted">Análise completa da performance da fazenda</p>
+            </div>
+
+            <!-- Indicadores Principais -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-bar-chart-fill me-2"></i>Indicadores Principais</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <small class="text-muted d-block">Total de Animais</small>
+                                        <h4 class="mb-0 text-primary" id="rel-total-animais">0</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <small class="text-muted d-block">Total de UA</small>
+                                        <h4 class="mb-0 text-success" id="rel-total-ua">0</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <small class="text-muted d-block">Peso Médio do Rebanho</small>
+                                        <h4 class="mb-0 text-info" id="rel-peso-medio">0 kg</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <small class="text-muted d-block">Saldo Financeiro</small>
+                                        <h4 class="mb-0 text-warning" id="rel-saldo">R$ 0,00</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Composição do Rebanho -->
+            <div class="row mb-4">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-pie-chart-fill me-2"></i>Composição do Rebanho por Categoria</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Categoria</th>
+                                            <th>Quantidade</th>
+                                            <th>UA Total</th>
+                                            <th>% do Rebanho</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="comp-rebanho"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0"><i class="bi bi-gender-ambiguous me-2"></i>Distribuição por Sexo</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Sexo</th>
+                                            <th>Quantidade</th>
+                                            <th>Percentual</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dist-sexo"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo Financeiro -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0"><i class="bi bi-cash-stack me-2"></i>Resumo Financeiro</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6 class="text-muted">Total de Receitas</h6>
+                                    <h3 class="text-success" id="rel-receitas">R$ 0,00</h3>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-muted">Total de Despesas</h6>
+                                    <h3 class="text-danger" id="rel-despesas">R$ 0,00</h3>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-muted">Lucro/Prejuízo</h6>
+                                    <h3 id="rel-lucro">R$ 0,00</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicadores Reprodutivos -->
+            <div class="row mb-4">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0"><i class="bi bi-heart-pulse-fill me-2"></i>Indicadores Reprodutivos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <small class="text-muted">Total de Inseminações</small>
+                                <h4 class="mb-0" id="rel-total-ia">0</h4>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Prenhezes Confirmadas</small>
+                                <h4 class="mb-0 text-success" id="rel-prenhez-conf">0</h4>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Taxa de Sucesso</small>
+                                <h4 class="mb-0 text-primary" id="rel-taxa-sucesso">0%</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0"><i class="bi bi-clipboard2-pulse me-2"></i>Gestão Sanitária</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <small class="text-muted">Total de Manejos</small>
+                                <h4 class="mb-0" id="rel-total-sanit">0</h4>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Vacinas Aplicadas</small>
+                                <h4 class="mb-0 text-success" id="rel-vacinas">0</h4>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Vermífugos Aplicados</small>
+                                <h4 class="mb-0 text-info" id="rel-vermifugos">0</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Impressão -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <button class="btn btn-primary" onclick="window.print()">
+                                <i class="bi bi-printer me-2"></i>Imprimir Relatório
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function carregarRelatorios() {
+            const stats = DataManager.getDashboardStats();
+            const animais = DataManager.getAnimais();
+            const inseminacoes = DataManager.getInseminacoes();
+            const sanitarios = DataManager.getSanitarios();
+            const financeiros = DataManager.getFinanceiros();
+
+            document.getElementById('rel-total-animais').textContent = stats.totalAnimais;
+            document.getElementById('rel-total-ua').textContent = stats.totalUA;
+            document.getElementById('rel-peso-medio').textContent = stats.pesoMedioRebanho + ' kg';
+            document.getElementById('rel-saldo').textContent = stats.saldoTotal;
+
+            // Composição do Rebanho
+            const categorias = {};
+            let totalAnimais = animais.filter(a => a.status === 'Ativo').length;
+            
+            animais.filter(a => a.status === 'Ativo').forEach(a => {
+                if (!categorias[a.categoria]) {
+                    categorias[a.categoria] = { qtd: 0, ua: 0 };
+                }
+                categorias[a.categoria].qtd++;
+                categorias[a.categoria].ua += a.ua || 0;
+            });
+
+            const tbodyComp = document.getElementById('comp-rebanho');
+            tbodyComp.innerHTML = Object.keys(categorias).map(cat => {
+                const perc = totalAnimais > 0 ? ((categorias[cat].qtd / totalAnimais) * 100).toFixed(1) : 0;
+                return `
+                    <tr>
+                        <td><strong>${cat}</strong></td>
+                        <td>${categorias[cat].qtd}</td>
+                        <td>${categorias[cat].ua.toFixed(2)} UA</td>
+                        <td>${perc}%</td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Distribuição por Sexo
+            const sexos = { 'M': 0, 'F': 0 };
+            animais.filter(a => a.status === 'Ativo').forEach(a => {
+                if (a.sexo) sexos[a.sexo]++;
+            });
+
+            const tbodySexo = document.getElementById('dist-sexo');
+            tbodySexo.innerHTML = Object.keys(sexos).map(s => {
+                const perc = totalAnimais > 0 ? ((sexos[s] / totalAnimais) * 100).toFixed(1) : 0;
+                return `
+                    <tr>
+                        <td><strong>${s === 'M' ? 'Macho' : 'Fêmea'}</strong></td>
+                        <td>${sexos[s]}</td>
+                        <td>${perc}%</td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Financeiro
+            document.getElementById('rel-receitas').textContent = DataManager.formatarMoeda(stats.totalReceitas);
+            document.getElementById('rel-despesas').textContent = DataManager.formatarMoeda(stats.totalDespesas);
+            const lucro = stats.totalReceitas - stats.totalDespesas;
+            const lucroEl = document.getElementById('rel-lucro');
+            lucroEl.textContent = DataManager.formatarMoeda(lucro);
+            lucroEl.className = lucro >= 0 ? 'text-success' : 'text-danger';
+
+            // Reprodutivos
+            const totalIA = inseminacoes.length;
+            const confirmadas = inseminacoes.filter(i => i.status === 'Confirmada' || i.status === 'Parida').length;
+            const taxaSucesso = totalIA > 0 ? ((confirmadas / totalIA) * 100).toFixed(1) : 0;
+            
+            document.getElementById('rel-total-ia').textContent = totalIA;
+            document.getElementById('rel-prenhez-conf').textContent = confirmadas;
+            document.getElementById('rel-taxa-sucesso').textContent = taxaSucesso + '%';
+
+            // Sanitário
+            const totalSanit = sanitarios.length;
+            const vacinas = sanitarios.filter(s => s.tipo === 'Vacina').length;
+            const vermifugos = sanitarios.filter(s => s.tipo === 'Vermífugo').length;
+            
+            document.getElementById('rel-total-sanit').textContent = totalSanit;
+            document.getElementById('rel-vacinas').textContent = vacinas;
+            document.getElementById('rel-vermifugos').textContent = vermifugos;
+        }
+
+        carregarRelatorios();
+    </script>
+</body>
+</html>

@@ -20,11 +20,15 @@
         <nav class="sidebar-menu">
             <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
             <a href="rebanho.html" class="menu-item"><i class="bi bi-clipboard-data"></i><span>Rebanho</span></a>
+            <a href="pesagem.html" class="menu-item"><i class="bi bi-speedometer"></i><span>Pesagem</span></a>
+            <a href="pastagens.html" class="menu-item"><i class="bi bi-grid-3x3-gap"></i><span>Pastagens</span></a>
+            <a href="leite.html" class="menu-item"><i class="bi bi-droplet"></i><span>Produção Leite</span></a>
             <a href="genealogia.html" class="menu-item"><i class="bi bi-diagram-3"></i><span>Genealogia</span></a>
             <a href="inseminacao.html" class="menu-item"><i class="bi bi-heart-pulse"></i><span>Inseminação</span></a>
             <a href="sanitario.html" class="menu-item active"><i class="bi bi-prescription2"></i><span>Sanitário</span></a>
             <a href="alimentacao.html" class="menu-item"><i class="bi bi-basket"></i><span>Alimentação</span></a>
             <a href="financeiro.html" class="menu-item"><i class="bi bi-cash-coin"></i><span>Financeiro</span></a>
+            <a href="relatorios.html" class="menu-item"><i class="bi bi-graph-up"></i><span>Relatórios</span></a>
         </nav>
         <div class="sidebar-footer">
             <button class="btn btn-danger w-100" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Sair</button>
@@ -175,8 +179,14 @@
         });
 
         function carregarSanitario() {
-            const manejos = DataManager.getSanitarios();
+            const manejos = DataManager.getSanitarios().sort((a, b) => new Date(b.data) - new Date(a.data));
             const tbody = document.getElementById('sanitario-table');
+            
+            if (manejos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted">Nenhum manejo sanitário registrado</td></tr>';
+                return;
+            }
+            
             tbody.innerHTML = manejos.map(m => `
                 <tr>
                     <td><strong>${m.animalId}</strong></td>
