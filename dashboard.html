@@ -27,6 +27,18 @@
                 <i class="bi bi-clipboard-data"></i>
                 <span>Rebanho</span>
             </a>
+            <a href="pesagem.html" class="menu-item">
+                <i class="bi bi-speedometer"></i>
+                <span>Pesagem</span>
+            </a>
+            <a href="pastagens.html" class="menu-item">
+                <i class="bi bi-grid-3x3-gap"></i>
+                <span>Pastagens</span>
+            </a>
+            <a href="leite.html" class="menu-item">
+                <i class="bi bi-droplet"></i>
+                <span>Produção Leite</span>
+            </a>
             <a href="genealogia.html" class="menu-item">
                 <i class="bi bi-diagram-3"></i>
                 <span>Genealogia</span>
@@ -46,6 +58,10 @@
             <a href="financeiro.html" class="menu-item">
                 <i class="bi bi-cash-coin"></i>
                 <span>Financeiro</span>
+            </a>
+            <a href="relatorios.html" class="menu-item">
+                <i class="bi bi-graph-up"></i>
+                <span>Relatórios</span>
             </a>
         </nav>
 
@@ -76,16 +92,18 @@
                     <i class="bi bi-speedometer2 text-primary"></i>
                     Dashboard Principal
                 </h1>
-                <p class="text-muted">Visão geral da sua propriedade rural</p>
+                <p class="text-muted">Visão geral completa da sua propriedade rural</p>
             </div>
 
             <!-- Tutorial -->
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <h5 class="alert-heading"><i class="bi bi-lightbulb-fill me-2"></i>Como Usar o Sistema</h5>
-                <p class="mb-2"><strong>1.</strong> Use o menu lateral para navegar entre as páginas</p>
-                <p class="mb-2"><strong>2.</strong> Todos os dados são salvos automaticamente no seu navegador</p>
-                <p class="mb-2"><strong>3.</strong> Comece cadastrando seus animais na página "Rebanho"</p>
-                <p class="mb-0"><strong>4.</strong> Os dados são criptografados para sua segurança</p>
+                <p class="mb-2"><strong>1.</strong> Use o <strong>menu lateral</strong> para navegar entre as páginas</p>
+                <p class="mb-2"><strong>2.</strong> Comece cadastrando seus animais na página <strong>"Rebanho"</strong></p>
+                <p class="mb-2"><strong>3.</strong> Registre o peso dos animais em <strong>"Pesagem"</strong> para calcular UA corretamente</p>
+                <p class="mb-2"><strong>4.</strong> Configure seus <strong>"Piquetes/Pastagens"</strong> para controlar lotação</p>
+                <p class="mb-2"><strong>5.</strong> Todos os dados são <strong>criptografados</strong> e salvos com segurança</p>
+                <p class="mb-0"><strong>📊</strong> Acesse <strong>"Relatórios"</strong> para ver indicadores completos!</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
@@ -111,6 +129,7 @@
                         <div>
                             <h3 class="mb-0" id="total-ua">0.0</h3>
                             <p class="mb-0">Unidades Animais (UA)</p>
+                            <small class="opacity-75">1 UA = 450kg</small>
                         </div>
                     </div>
                 </div>
@@ -138,6 +157,54 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="dashboard-card bg-info">
+                        <div class="card-icon">
+                            <i class="bi bi-droplet-fill"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" id="prod-leite-mes">0</h3>
+                            <p class="mb-0">Prod. Leite (Mês) em Litros</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="dashboard-card bg-dark">
+                        <div class="card-icon">
+                            <i class="bi bi-speedometer2"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" id="peso-medio">0</h3>
+                            <p class="mb-0">Peso Médio (kg)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="dashboard-card bg-secondary">
+                        <div class="card-icon">
+                            <i class="bi bi-prescription2"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" id="manejos-sanitarios">0</h3>
+                            <p class="mb-0">Manejos Sanitários</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="dashboard-card bg-success">
+                        <div class="card-icon">
+                            <i class="bi bi-grid-3x3-gap"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" id="total-piquetes-dash">0</h3>
+                            <p class="mb-0">Piquetes Cadastrados</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Alertas e Próximos Eventos -->
@@ -145,9 +212,9 @@
                 <div class="col-lg-6">
                     <div class="card shadow-sm">
                         <div class="card-header bg-warning text-white">
-                            <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>Alertas Sanitários</h5>
+                            <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>Alertas Importantes</h5>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="max-height: 300px; overflow-y: auto;">
                             <div id="alertas-sanitarios">
                                 <p class="text-muted">Nenhum alerta no momento</p>
                             </div>
@@ -160,9 +227,44 @@
                         <div class="card-header bg-info text-white">
                             <h5 class="mb-0"><i class="bi bi-calendar-event me-2"></i>Próximos Eventos</h5>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="max-height: 300px; overflow-y: auto;">
                             <div id="proximos-eventos">
                                 <p class="text-muted">Nenhum evento programado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atalhos Rápidos -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-lightning-fill me-2"></i>Ações Rápidas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <a href="rebanho.html" class="btn btn-outline-primary w-100">
+                                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Animal
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="pesagem.html" class="btn btn-outline-success w-100">
+                                        <i class="bi bi-speedometer me-2"></i>Registrar Pesagem
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="sanitario.html" class="btn btn-outline-warning w-100">
+                                        <i class="bi bi-prescription2 me-2"></i>Manejo Sanitário
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="financeiro.html" class="btn btn-outline-danger w-100">
+                                        <i class="bi bi-cash me-2"></i>Lançamento Financeiro
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -176,13 +278,55 @@
     <script src="js/data-manager.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // Atualiza o dashboard
         document.addEventListener('DOMContentLoaded', () => {
             const stats = DataManager.getDashboardStats();
+            const sanitarios = DataManager.getSanitarios();
+            const inseminacoes = DataManager.getInseminacoes();
+            const pastagens = DataManager.getPastagens();
+            
             document.getElementById('total-animais').textContent = stats.totalAnimais;
-            document.getElementById('total-ua').textContent = stats.totalUA.toFixed(2);
+            document.getElementById('total-ua').textContent = stats.totalUA + ' UA';
             document.getElementById('saldo-total').textContent = stats.saldoTotal;
             document.getElementById('total-inseminacoes').textContent = stats.totalInseminacoes;
+            document.getElementById('prod-leite-mes').textContent = stats.producaoLeiteMes;
+            document.getElementById('peso-medio').textContent = stats.pesoMedioRebanho;
+            document.getElementById('manejos-sanitarios').textContent = sanitarios.length;
+            document.getElementById('total-piquetes-dash').textContent = pastagens.length;
+
+            // Próximos eventos
+            const hoje = new Date();
+            const em30dias = new Date(hoje.getTime() + (30 * 24 * 60 * 60 * 1000));
+            
+            const partosProximos = inseminacoes.filter(i => {
+                if (!i.previsaoParto || i.status !== 'Confirmada') return false;
+                const dataParto = new Date(i.previsaoParto);
+                return dataParto >= hoje && dataParto <= em30dias;
+            });
+
+            const divEventos = document.getElementById('proximos-eventos');
+            if (partosProximos.length > 0) {
+                divEventos.innerHTML = partosProximos.map(p => `
+                    <div class="alert alert-info mb-2">
+                        <strong>Parto Previsto:</strong> Vaca ${p.animalId} - ${DataManager.formatarData(p.previsaoParto)}
+                    </div>
+                `).join('');
+            }
+
+            // Alertas sanitários
+            const alertasSanit = sanitarios.filter(s => {
+                if (!s.proximaDose) return false;
+                const dataProxima = new Date(s.proximaDose);
+                return dataProxima >= hoje && dataProxima <= em30dias;
+            });
+
+            const divAlertas = document.getElementById('alertas-sanitarios');
+            if (alertasSanit.length > 0) {
+                divAlertas.innerHTML = alertasSanit.map(a => `
+                    <div class="alert alert-warning mb-2">
+                        <strong>${a.produto}:</strong> Animal ${a.animalId} - ${DataManager.formatarData(a.proximaDose)}
+                    </div>
+                `).join('');
+            }
         });
     </script>
 </body>
